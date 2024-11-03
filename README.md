@@ -2,7 +2,7 @@
 
 Este proyecto explora diferentes métodos para generar variables aleatorias siguiendo una distribución normal estándar (media = 0, desviación estándar = 1.0) y comparar los resultados. Los métodos incluyen:
 
-1. **Monty Python** (implementación en C)
+1. **Monty Python** 
 2. **Box-Muller**
 3. **GRAND** (Generador Random)
 4. Generador estándar de `numpy` (`np.random.default_rng`)
@@ -29,7 +29,7 @@ Este proyecto explora diferentes métodos para generar variables aleatorias sigu
 
 This project explores and compares different methods for generating random variables following a standard normal distribution (mean = 0, standard deviation = 1.0). The methods include:
 
-1. **Monty Python** (C implementation)
+1. **Monty Python** 
 2. **Box-Muller**
 3. **GRAND** (Random Generator)
 4. `numpy` standard generator (`np.random.default_rng`)
