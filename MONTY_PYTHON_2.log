@@ -1,0 +1,98 @@
+DEBUG:2024-11-03 17:46:52
+DEBUG:Loaded backend macosx version unknown.
+INFO:n = 1000. Results:
+                      0             1           2         3
+Method          Teórica  Monty Python  Box-Muller     GRAND
+mean          -0.036665      0.012638     0.02166 -0.016557
+std            1.029961      0.972846    0.994767  1.004342
+ShapiroTest()  0.862955      0.696211    0.076395  0.732755
+NormalTest()   0.938729      0.555441    0.093827  0.848734
+KS-test             1.0       0.31368    0.097103   0.75937
+DEBUG:2024-11-03 17:50:30
+DEBUG:Loaded backend macosx version unknown.
+INFO:n = 1000. Results:
+                      0             1              2
+Method          Teórica  Monty Python  Ahrens-Dieter
+mean          -0.036665     -0.001242       0.016112
+std            1.029961      0.981936       1.220938
+ShapiroTest()  0.862955      0.776283       0.000003
+NormalTest()   0.938729      0.799759            0.0
+KS-test             1.0       0.57289       0.000002
+DEBUG:2024-11-03 17:51:31
+DEBUG:Loaded backend macosx version unknown.
+INFO:n = 1000. Results:
+                      0             1              2
+Method          Teórica  Monty Python  Ahrens-Dieter
+mean          -0.036665     -0.024379      -0.089073
+std            1.029961      1.054814       1.218565
+ShapiroTest()  0.862955      0.681283       0.000013
+NormalTest()   0.938729      0.798425       0.000003
+KS-test             1.0      0.685497       0.000017
+DEBUG:2024-11-03 17:51:59
+DEBUG:Loaded backend macosx version unknown.
+INFO:n = 5000. Results:
+                      0             1              2
+Method          Teórica  Monty Python  Ahrens-Dieter
+mean          -0.003365     -0.024653       0.008051
+std            0.992045      0.995345        1.23786
+ShapiroTest()  0.657213      0.147497            0.0
+NormalTest()    0.85559      0.221183            0.0
+KS-test             1.0      0.112251            0.0
+DEBUG:2024-11-03 17:52:32
+DEBUG:Loaded backend macosx version unknown.
+INFO:n = 10000. Results:
+                      0             1              2
+Method          Teórica  Monty Python  Ahrens-Dieter
+mean           0.001341      0.006082      -0.010396
+std            0.985541      0.999997       1.226097
+ShapiroTest()  0.669402      0.595127            0.0
+NormalTest()   0.976657      0.357372            0.0
+KS-test             1.0      0.204335            0.0
+DEBUG:2024-11-03 17:52:43
+DEBUG:Loaded backend macosx version unknown.
+INFO:n = 10000. Results:
+                      0             1              2
+Method          Teórica  Monty Python  Ahrens-Dieter
+mean           0.001341      0.015968      -0.010614
+std            0.985541      0.995478       1.216731
+ShapiroTest()  0.669402      0.772582            0.0
+NormalTest()   0.976657      0.716071            0.0
+KS-test             1.0      0.065258            0.0
+DEBUG:2024-11-03 17:53:38
+DEBUG:Loaded backend macosx version unknown.
+INFO:n = 1000. Results:
+                      0             1              2
+Method          Teórica  Monty Python  Ahrens-Dieter
+mean          -0.036665     -0.014076      -0.001316
+std            1.029961      0.989843       1.204404
+ShapiroTest()  0.862955      0.306307            0.0
+NormalTest()   0.938729      0.473733            0.0
+KS-test             1.0      0.647815       0.000001
+DEBUG:2024-11-03 17:54:11
+DEBUG:Loaded backend macosx version unknown.
+INFO:n = 1000. Results:
+                      0             1              2
+Method          Teórica  Monty Python  Ahrens-Dieter
+mean          -0.036665     -0.039096        0.05713
+std            1.029961      0.999203       1.208494
+ShapiroTest()  0.862955      0.106797       0.000011
+NormalTest()   0.938729      0.169648       0.000018
+KS-test             1.0      0.969001       0.000001
+INFO:========  samples ========
+DEBUG:Fitter Summary:
+          sumsquare_error  ks_pvalue
+chi2             0.874436   0.000432
+lognorm          0.877197   0.000801
+gamma            0.877875   0.000925
+norm             0.878011   0.000942
+exponpow         0.901659   0.003143
+DEBUG:2024-11-03 17:57:15
+DEBUG:Loaded backend macosx version unknown.
+INFO:n = 100000. Results:
+                      0             1              2
+Method          Teórica  Monty Python  Ahrens-Dieter
+mean           0.002883      0.005078       0.001377
+std            0.998328      1.000597       1.225721
+ShapiroTest()  0.999825      0.541336            0.0
+NormalTest()   0.716287      0.030694            0.0
+KS-test             1.0       0.39632            0.0

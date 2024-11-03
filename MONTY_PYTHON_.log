@@ -1,0 +1,140 @@
+DEBUG:2024-11-03 14:53:23
+DEBUG:Loaded backend macosx version unknown.
+INFO:n = 100. Results:
+                      0             1           2         3
+Method          Teórica  Monty Python  Box-Muller     GRAND
+mean          -0.045333      0.133925   -0.076403  0.081686
+std            0.877635      0.949454    1.005519  0.838863
+ShapiroTest()  0.285879      0.526598    0.875625  0.517696
+NormalTest()   0.120298       0.54804    0.994457  0.652127
+KS-test             1.0      0.368188    0.994236  0.368188
+DEBUG:2024-11-03 14:53:59
+DEBUG:Loaded backend macosx version unknown.
+INFO:n = 1000. Results:
+                      0             1           2         3
+Method          Teórica  Monty Python  Box-Muller     GRAND
+mean          -0.036665      0.010128   -0.004209  0.027117
+std            1.029961      1.016602    0.992083  0.962343
+ShapiroTest()  0.862955      0.853983    0.674673  0.008647
+NormalTest()   0.938729      0.860738    0.851893   0.00386
+KS-test             1.0      0.287798     0.57289  0.219396
+DEBUG:2024-11-03 14:54:20
+DEBUG:Loaded backend macosx version unknown.
+INFO:n = 5000. Results:
+                      0             1           2         3
+Method          Teórica  Monty Python  Box-Muller     GRAND
+mean          -0.003365      0.021462   -0.000224  0.007815
+std            0.992045      1.003442    1.017415  1.013873
+ShapiroTest()  0.657213      0.570996    0.219197  0.614216
+NormalTest()    0.85559      0.862461    0.904744  0.747381
+KS-test             1.0      0.141964    0.528005   0.14861
+DEBUG:2024-11-03 14:54:36
+DEBUG:Loaded backend macosx version unknown.
+INFO:n = 10000. Results:
+                      0             1           2         3
+Method          Teórica  Monty Python  Box-Muller     GRAND
+mean           0.001341     -0.000386   -0.000618 -0.000034
+std            0.985541       0.99995    1.002675  0.995739
+ShapiroTest()  0.669402      0.859244    0.618325   0.88083
+NormalTest()   0.976657      0.523751    0.775512  0.699701
+KS-test             1.0      0.616085    0.313388  0.843589
+DEBUG:2024-11-03 14:55:01
+DEBUG:Loaded backend macosx version unknown.
+INFO:n = 10000. Results:
+                      0             1           2         3
+Method          Teórica  Monty Python  Box-Muller     GRAND
+mean           0.001341      0.008656   -0.007765  -0.00315
+std            0.985541      0.996327    1.011492  1.011496
+ShapiroTest()  0.669402      0.927825    0.414256  0.900521
+NormalTest()   0.976657      0.885458    0.882279  0.643148
+KS-test             1.0      0.164674    0.111134   0.28094
+DEBUG:2024-11-03 14:55:23
+DEBUG:Loaded backend macosx version unknown.
+INFO:n = 100000. Results:
+                      0             1           2         3
+Method          Teórica  Monty Python  Box-Muller     GRAND
+mean           0.002883     -0.004933    0.000597   0.00232
+std            0.998328      1.001405    1.005707  1.002109
+ShapiroTest()  0.999825      0.674678    0.169427  0.352253
+NormalTest()   0.716287      0.649338    0.005945  0.101978
+KS-test             1.0      0.150874    0.340053  0.604924
+DEBUG:2024-11-03 14:56:06
+DEBUG:Loaded backend macosx version unknown.
+INFO:n = 100000. Results:
+                      0             1           2         3
+Method          Teórica  Monty Python  Box-Muller     GRAND
+mean           0.002883      0.000108    0.003527  -0.00287
+std            0.998328      1.001325    0.997005  1.003523
+ShapiroTest()  0.999825      0.768935    0.983448  0.285491
+NormalTest()   0.716287      0.432579    0.906122  0.032034
+KS-test             1.0      0.474875     0.75429  0.393223
+DEBUG:2024-11-03 14:59:57
+DEBUG:Loaded backend macosx version unknown.
+INFO:n = 100. Results:
+                      0             1           2         3
+Method          Teórica  Monty Python  Box-Muller     GRAND
+mean          -0.045333      0.115935   -0.105096  0.046705
+std            0.877635      1.028843    1.076691  0.936011
+ShapiroTest()  0.285879      0.821479    0.959951  0.008702
+NormalTest()   0.120298      0.823375    0.680144   0.09431
+KS-test             1.0      0.583009    0.583009  0.281942
+DEBUG:2024-11-03 15:00:22
+DEBUG:Loaded backend macosx version unknown.
+INFO:n = 1000. Results:
+                      0             1           2         3
+Method          Teórica  Monty Python  Box-Muller     GRAND
+mean          -0.036665      0.025778     0.04244  0.015894
+std            1.029961      1.046075      1.0196  1.017279
+ShapiroTest()  0.862955      0.239525      0.4391    0.2039
+NormalTest()   0.938729      0.176795    0.300108  0.147145
+KS-test             1.0      0.647815    0.199574  0.536277
+DEBUG:2024-11-03 15:00:36
+DEBUG:Loaded backend macosx version unknown.
+INFO:n = 1000. Results:
+                      0             1           2         3
+Method          Teórica  Monty Python  Box-Muller     GRAND
+mean          -0.036665      0.003083    0.059892 -0.016677
+std            1.029961      1.008259     0.98565  1.036955
+ShapiroTest()  0.862955      0.372284    0.884087  0.707606
+NormalTest()   0.938729      0.518117    0.491592  0.692819
+KS-test             1.0      0.794664    0.077611  0.859545
+DEBUG:2024-11-03 15:00:50
+DEBUG:Loaded backend macosx version unknown.
+INFO:n = 5000. Results:
+                      0             1           2         3
+Method          Teórica  Monty Python  Box-Muller     GRAND
+mean          -0.003365     -0.015606   -0.015152  0.025564
+std            0.992045      0.992085    0.992168  1.010734
+ShapiroTest()  0.657213      0.630291    0.859123    0.2705
+NormalTest()    0.85559      0.877149    0.933179  0.771959
+KS-test             1.0      0.593677    0.941502  0.001975
+DEBUG:2024-11-03 15:01:07
+DEBUG:Loaded backend macosx version unknown.
+INFO:n = 10000. Results:
+                      0             1           2         3
+Method          Teórica  Monty Python  Box-Muller     GRAND
+mean           0.001341      0.008247    0.005478  0.008383
+std            0.985541      1.009617    1.003026  1.009056
+ShapiroTest()  0.669402      0.516833    0.221724  0.890272
+NormalTest()   0.976657      0.288206    0.446737  0.806339
+KS-test             1.0      0.067711    0.087175  0.131385
+DEBUG:2024-11-03 15:01:36
+DEBUG:Loaded backend macosx version unknown.
+INFO:n = 100000. Results:
+                      0             1           2         3
+Method          Teórica  Monty Python  Box-Muller     GRAND
+mean           0.002883      0.004927    0.003325 -0.003942
+std            0.998328      0.999374    1.002809  1.004028
+ShapiroTest()  0.999825      0.750908    0.999621  0.632596
+NormalTest()   0.716287      0.137235    0.683519  0.149977
+KS-test             1.0      0.910265    0.902817  0.038102
+DEBUG:2024-11-03 15:15:05
+DEBUG:Loaded backend macosx version unknown.
+INFO:n = 1000. Results:
+                      0             1           2         3
+Method          Teórica  Monty Python  Box-Muller     GRAND
+mean          -0.036665     -0.066461   -0.003174   0.00417
+std            1.029961      0.983096     1.00895  1.014695
+ShapiroTest()  0.862955      0.062888    0.233595  0.139614
+NormalTest()   0.938729      0.056921    0.148489  0.064522
+KS-test             1.0      0.287798    0.610166  0.536277

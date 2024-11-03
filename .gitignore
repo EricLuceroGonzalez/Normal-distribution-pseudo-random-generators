@@ -1,0 +1,10 @@
+# Ignorar archivos de imagenes
+images/
+*.png
+*.jpg
+*.jpeg
+*.gif
+
+# Ignorar archivos Jupyter checkpoints y de sistema
+.ipynb_checkpoints/
+.DS_Store
