@@ -19,3 +19,29 @@ Este proyecto explora diferentes métodos para generar variables aleatorias sigu
    ```bash
    pip install -r requirements.txt
 # Normal-distribution-pseudo-random-generators
+
+
+
+
+#### English
+
+# Generation and Analysis of Random Variables
+
+This project explores and compares different methods for generating random variables following a standard normal distribution (mean = 0, standard deviation = 1.0). The methods include:
+
+1. **Monty Python** (C implementation)
+2. **Box-Muller**
+3. **GRAND** (Random Generator)
+4. `numpy` standard generator (`np.random.default_rng`)
+
+## Project Structure
+
+- **Source Code**: Implementations of the generation methods in Python
+- **Analysis**: Scripts to compare methods using statistical tests such as Kolmogorov-Smirnov and normality tests (SciPy).
+
+## Instructions
+
+1. Clone the repository.
+2. Install dependencies:
+   ```bash
+   pip install -r requirements.txt
