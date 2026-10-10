@@ -1,13 +1,31 @@
 # monty_python_test.py
-from fitter import Fitter, get_common_distributions
 import matplotlib.pyplot as plt
 from scipy.stats import norm
 from scipy import stats
 import pandas as pd
-
+import seaborn as sns
 import numpy as np
 import math
 import logging, os, sys
+import time
+from typing import Callable
+from mp_box_mueller import Box_Muller_normal
+from ahrens_dieter import (
+    ahrens_dieter_cauchy,
+    ahrens_dieter_exponential,
+    ahrens_dieter_normal,
+    generate_ahrens_dieter_samples,
+)
+from mp_functions import (
+    Normalize_pdf,
+    Compute_Mean_Std,
+    Kolmogorov_Smirnov_test,
+    plot_hist,
+    uniform_random,
+    f,
+    f_est,
+    g,
+)
 
 sys.path.append(os.path.abspath("../"))
 current = os.path.dirname(os.path.realpath(__file__))
@@ -29,174 +47,6 @@ from datetime import datetime
 
 today = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 logging.debug(today)
-
-
-def Normalize_pdf(data):
-    sum_each = np.sum(data)
-    normalize = [i / sum_each for i in data]
-    return normalize
-
-
-def Compute_Mean_Std(data):
-    data_mean = np.mean(data)
-    data_std = np.std(data)
-    return data_mean, data_std
-
-
-def Kolmogorov_Smirnov_test(data_1, data_2, name=""):
-    ks_test = stats.kstest(data_1, data_2)
-    # Return p-values
-    return ks_test.pvalue
-
-
-def plot_hist(
-    data, plot=False, title="", label="", Save_plot=False, plot_color="crimson"
-):
-    plt.figure(figsize=(10, 6))
-    # Plot de la distribución normal para comparar (en rojo)
-    x = np.linspace(-4, 4, len(data))
-    # Numero de columnas en el histograma:
-    # bins_number = math.ceil(math.sqrt(len(data)))
-    bins_number = math.ceil(1 + 3.322 * math.log(len(data)))
-    plt.hist(
-        data,
-        bins=bins_number,
-        density=True,
-        alpha=0.75,
-        color=plot_color,
-        edgecolor="white",
-        label="{}".format(label),
-    )
-    plt.plot(x, f_est(x), label=r"$N(0,1) = \frac{1}{\sqrt{2*\pi}} * e^{(-0.5x^2)}$")
-
-    ax = plt.gca()
-    # ax.set_xlim([-3, 3])
-    # ax.set_ylim([0, 0.5])
-    plt.legend()
-    plt.title("{}, n = {:,}".format(title, len(data), ","))
-
-    plt.xlabel("$x$")
-    plt.ylabel("Frecuencia")
-    plt.grid(False)
-    if Save_plot:
-        plt.savefig(current + "/images/{}_{}_samples.png".format(label, len(data)))
-    if plot:
-        plt.show() if plot else ""
-        plt.close()
-
-
-def uniform_random():
-    return np.random.uniform(0, 1)
-
-
-# Función de densidad absoluta
-def f(x):
-    return 2 * np.exp(-0.5 * x**2) / np.sqrt(2 * np.pi)
-
-
-# The rotated and stretched density for the tail region (Monty-Python)
-def g(x, s, b):
-    return 1 / b - s * (f(s * (b - x)) - 1 / b)
-
-
-# Densidad estándar
-def f_est(x):
-    return np.exp(-0.5 * x**2) / np.sqrt(2 * np.pi)
-
-
-def ahrens_dieter_exponential():
-    """
-    From: Gaussian random number generators (2007). David B. Thomas et al.
-    Ahrens-Dieter method (Algoritmo 7)
-    """
-    # Constantes
-    A = 0.0
-    B = 1.0
-    C = 1.0
-    P = 0.98
-    LN2 = np.log(2)
-
-    while True:
-        x = uniform_random()
-        a = A
-
-        while x < 0.5:
-            x = 2 * x
-            a = a + LN2
-
-        x = x - 1
-
-        if x < P:  # Primera rama (ejecuta ~98% de las veces)
-            return a + B / (C - x)
-        else:
-            while True:
-                u1 = uniform_random()
-                u2 = uniform_random()
-                if u2 <= np.exp(-u1):
-                    return a + u1
-
-
-def ahrens_dieter_cauchy():
-    """
-    Valores Cauchy Ahrens-Dieter method (Algoritmo 8)
-    """
-    A = 1.0
-    B = 1.0
-    C = 0.0
-
-    while True:
-        u1 = uniform_random()
-        b = u1 - 0.5
-        c = A - (u1 - 0.5) ** 2
-
-        if c > 0:  # Primera rama (ejecuta ~99.8% de las veces)
-            return b * (B / c + C)
-        else:
-            while True:
-                u1 = uniform_random()
-                u2 = uniform_random()
-                v = np.pi * (u1 - 0.5)
-                y = np.tan(v)
-                if u2 <= (1 + y * y) * np.exp(-0.5 * y * y):
-                    return y
-
-
-def ahrens_dieter_normal():
-    """
-    Generar un par de números aleatorios normales estándar independientes
-    utilizando el método sin tablas de Ahrens-Dieter con generadores
-    exponenciales y de Cauchy. (Algoritmo 9).
-    """
-
-    s = 1 if uniform_random() < 0.5 else -1
-
-    x = ahrens_dieter_exponential()
-    y = ahrens_dieter_cauchy()
-
-    z = np.sqrt((2 * x) / (1 + y * y))
-
-    return (s * z, y * z)
-
-
-def generate_ahrens_dieter_samples(n_samples):
-    """
-    Genera n muestras de la distribución normal.
-    Nota: Cada llamada a ahrens_dieter_normal() genera 2 números,
-    así que sólo necesitamos n/2 llamadas.
-    """
-    samples = []
-    for _ in range(n_samples // 2 + n_samples % 2):
-        x, y = ahrens_dieter_normal()
-        samples.extend([x, y])
-    plot_hist(
-        samples,
-        False,
-        "Ahrens-Dieter Distribución Normal",
-        "ahrens_dieter_normal",
-        Save_plot=False,
-    )
-
-    return samples[:n_samples]
 
 
 def monty_python_normal():
@@ -253,29 +103,6 @@ def GRAND_normal():
                 break
 
 
-def Box_Muller_normal(n_samples=10, is_plotted=False):
-    # https://github.com/MrinalRajak/Box_Muller_Transform/blob/main/Box-Muller%20Transform.py
-
-    x1 = np.random.random(n_samples)
-    x2 = np.random.random(n_samples)
-
-    r = np.sqrt(-2 * np.log(x1))
-    theta = 2 * np.pi * x2
-    z1 = r * np.cos(theta)
-    z2 = r * np.sin(theta)
-
-    # Plot del histograma de los valores generados
-    if is_plotted:
-        plot_hist(
-            z1,
-            plot=True,
-            title="Generación de valores con Box-Muller",
-            label=r"$r\cos(\theta)$",
-            Save_plot=False,
-        )
-    return z1
-
-
 def test_monty_python_normal(n_samples, is_plotted):
     rng = np.random.default_rng(seed=19680801)
     normal_samples = rng.normal(0.0, 1.0, n_samples)
@@ -286,7 +113,7 @@ def test_monty_python_normal(n_samples, is_plotted):
     if is_plotted:
         plot_hist(
             montyPython_samples,
-            plot=True,
+            plot=is_plotted,
             title="Generación de valores con Monty Python",
             label="Monty Python",
             Save_plot=False,
@@ -309,68 +136,143 @@ def test_GRAND_normal(n_samples, is_plotted):
     return grand_samples
 
 
-n_samples = 100000
+n_samples = 1000000
 rng = np.random.default_rng(seed=19680801)
 normal_samples = rng.normal(0.0, 1.0, n_samples)
 
 # Plot de la distribución normal para comparar
 plot_hist(
     normal_samples,
-    plot=True,
+    plot=False,
     title="Generación de valores con numpy.rng.normal",
     label="numpy.rng.normal",
     Save_plot=False,
 )
 
-montyPython_samples = test_monty_python_normal(n_samples, True)
-Box_Muller_samples = Box_Muller_normal(n_samples, True)
-GRAND_samples = test_GRAND_normal(n_samples, True)
-ahrens_dieter_samples = generate_ahrens_dieter_samples(n_samples)
-results = pd.DataFrame(
-    columns=[
-        "Method",
-        "mean",
-        "std",
-        "ShapiroTest()",
-        "NormalTest()",
-        "KS-test",
+# GRAND_samples = test_GRAND_normal(n_samples, False)
+# Box_Muller_samples = Box_Muller_normal(n_samples, False)
+# ahrens_dieter_samples = generate_ahrens_dieter_samples(n_samples)
+for i in range(0, 1):
+    montyPython_samples = test_monty_python_normal(n_samples, True)
+    results = pd.DataFrame(
+        columns=[
+            # "Method",
+            "mean",
+            "std",
+            # "ShapiroTest()",
+            # "NormalTest()",
+            "KS-test",
+        ]
+    )
+    # results["Method"] = ["Teórica", "Monty Python", "Ahrens-Dieter", "Box-Muller", "GRAND"]
+    results["mean"] = [
+        # Compute_Mean_Std(normal_samples)[0],
+        Compute_Mean_Std(montyPython_samples)[0],
+        # Compute_Mean_Std(ahrens_dieter_samples)[0],
+        # Compute_Mean_Std(Box_Muller_samples)[0],
+        # Compute_Mean_Std(GRAND_samples)[0],
     ]
-)
-results["Method"] = ["Teórica", "Monty Python", "Ahrens-Dieter", "Box-Muller", "GRAND"]
-results["mean"] = [
-    Compute_Mean_Std(normal_samples)[0],
-    Compute_Mean_Std(montyPython_samples)[0],
-    Compute_Mean_Std(ahrens_dieter_samples)[0],
-    Compute_Mean_Std(Box_Muller_samples)[0],
-    Compute_Mean_Std(GRAND_samples)[0],
-]
-results["std"] = [
-    Compute_Mean_Std(normal_samples)[1],
-    Compute_Mean_Std(montyPython_samples)[1],
-    Compute_Mean_Std(ahrens_dieter_samples)[1],
-    Compute_Mean_Std(Box_Muller_samples)[1],
-    Compute_Mean_Std(GRAND_samples)[1],
-]
-results["ShapiroTest()"] = [
-    stats.shapiro(normal_samples)[1],
-    stats.shapiro(montyPython_samples)[1],
-    stats.shapiro(ahrens_dieter_samples)[1],
-    stats.shapiro(Box_Muller_samples)[1],
-    stats.shapiro(GRAND_samples)[1],
-]
-results["NormalTest()"] = [
-    stats.normaltest(normal_samples)[1],
-    stats.normaltest(montyPython_samples)[1],
-    stats.normaltest(ahrens_dieter_samples)[1],
-    stats.normaltest(Box_Muller_samples)[1],
-    stats.normaltest(GRAND_samples)[1],
-]
-results["KS-test"] = [
-    stats.kstest((normal_samples), (normal_samples)).pvalue,
-    stats.kstest((montyPython_samples), (normal_samples)).pvalue,
-    stats.kstest((ahrens_dieter_samples), (normal_samples)).pvalue,
-    stats.kstest((Box_Muller_samples), (normal_samples)).pvalue,
-    stats.kstest((GRAND_samples), (normal_samples)).pvalue,
-]
-# print statistics as dataframe
-logging.info("n = {}. Results:\n{}".format(n_samples, results.T))
+    results["std"] = [
+        # Compute_Mean_Std(normal_samples)[1],
+        Compute_Mean_Std(montyPython_samples)[1],
+        # Compute_Mean_Std(ahrens_dieter_samples)[1],
+        # Compute_Mean_Std(Box_Muller_samples)[1],
+        # Compute_Mean_Std(GRAND_samples)[1],
+    ]
+    # results["ShapiroTest()"] = [
+    # stats.shapiro(normal_samples)[1],
+    # stats.shapiro(montyPython_samples)[1],
+    # stats.shapiro(ahrens_dieter_samples)[1],
+    # stats.shapiro(Box_Muller_samples)[1],
+    # stats.shapiro(GRAND_samples)[1],
+    # ]
+    # results["NormalTest()"] = [
+    # stats.normaltest(normal_samples)[1],
+    # stats.normaltest(montyPython_samples)[1],
+    # stats.normaltest(ahrens_dieter_samples)[1],
+    # stats.normaltest(Box_Muller_samples)[1],
+    # stats.normaltest(GRAND_samples)[1],
+    # ]
+    results["KS-test"] = [
+        # stats.kstest((normal_samples), (normal_samples)).pvalue,
+        stats.kstest((montyPython_samples), (normal_samples)).pvalue,
+        # stats.kstest((ahrens_dieter_samples), (normal_samples)).pvalue,
+        # stats.kstest((Box_Muller_samples), (normal_samples)).pvalue,
+        # stats.kstest((GRAND_samples), (normal_samples)).pvalue,
+    ]
+    # print statistics as dataframe
+    logging.info("n = {}. Results:\n{}".format(n_samples, results.T))
+#
+
+
+def benchmark_normal_generator(
+    func: Callable, n_iterations: int = 1000, n_runs: int = 3
+) -> tuple[float, float]:
+    """
+    Benchmark de una función generadora de distribución normal.
+
+     Args:
+         func: La función generadora a evaluar
+         n_iteraciones: Número de valores a generar por ejecución
+         n_ejecuciones: Número de veces que se ejecuta la prueba
+
+     Devuelve:
+         tupla: (tiempo_medio, tiempo_est) en segundos
+    """
+    times = []
+
+    for _ in range(n_runs):
+        start_time = time.perf_counter()
+
+        if func.__name__ == "Box_Muller_normal":
+            _ = func(n_iterations)
+        else:
+            for _ in range(n_iterations):
+                _ = func()
+
+        end_time = time.perf_counter()
+        times.append(end_time - start_time)
+
+    return np.mean(times), np.std(times), times
+
+
+def plot_benchmark_results(results: dict):
+    methods = list(results.keys())
+    times = [results[m][2] for m in methods]
+    means = [results[m][0] for m in methods]
+    stds = [results[m][1] for m in methods]
+    plt.figure(figsize=(10, 6))
+    plt.bar(methods, means, yerr=stds, capsize=5, color="crimson")
+    plt.xticks(rotation=45)
+    plt.ylabel("Tiempo (segundos)")
+    plt.title("Comparación de métodos para generar distribuciones normales")
+    plt.tight_layout()
+    # ax = plt.gca()
+    # ax.set_xlim([-3, 3])
+    # ax.set_ylim([0, 2.85])
+    # plt.savefig(current + "/images/Benchmark_Test.png")
+    plt.show()
+
+
+# Config benchmark
+n_iterations = 1000
+n_runs = 10
+
+results = {
+    "Monty Python": benchmark_normal_generator(
+        monty_python_normal, n_iterations, n_runs
+    ),
+    # "GRAND": benchmark_normal_generator(GRAND_normal, n_iterations, n_runs),
+    # "Box-Muller": benchmark_normal_generator(Box_Muller_normal, n_iterations, n_runs),
+    # "Ahrens-Dieter": benchmark_normal_generator(
+    # lambda: ahrens_dieter_normal()[0], n_iterations, n_runs
+    # ),
+}
+
+# Print results
+print(f"\nBenchmark resultados ({n_iterations:,} iteraciones, {n_runs} ejecuciones):\n")
+for method, (mean_time, std_time, times) in results.items():
+    print(f"{method:15} {mean_time:.7f} ± {std_time:.7f} segundos")
+    logging.warning(f"{method:15} {mean_time:.7f} ± {std_time:.7f} segundos")
+
+# plot_benchmark_results(results)
